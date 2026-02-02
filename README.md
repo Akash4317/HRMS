@@ -26,12 +26,6 @@ A lightweight Human Resource Management System for managing employees and tracki
 - Mark daily attendance (Present/Absent)
 - View attendance records
 
-### Bonus Features
-- Filter attendance by employee and date
-- Dashboard with statistics (total employees, attendance counts)
-- Real-time updates after each action
-- Professional UI with loading and error states
-
 ## Local Setup
 
 ### Prerequisites
@@ -104,8 +98,8 @@ Frontend will run on http://localhost:3000
 
 ## Deployment
 
-**Frontend:** Deployed on Vercel/Netlify
-**Backend:** Deployed on Render/Railway
+**Frontend:** Deployed on Vercel/Netlify - https://hrms-inky-beta.vercel.app/
+**Backend:** Deployed on Render/Railway - https://hrms-6-ry10.onrender.com
 **Database:** MongoDB Atlas
 
 ## Assumptions
