@@ -25,6 +25,7 @@ A lightweight Human Resource Management System for managing employees and tracki
 - Delete employees
 - Mark daily attendance (Present/Absent)
 - View attendance records
+- can now view current day status
 
 ## Local Setup
 
