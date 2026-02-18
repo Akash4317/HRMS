@@ -224,6 +224,33 @@ async def get_stats():
         "total_absent": total_records - present_count
     }
 
+@app.get("/api/stats/today")
+async def get_today_stats():
+    today = date.today().isoformat()
+
+    total_employees = await employees_collection.count_documents({})
+    
+    today_records = await attendance_collection.count_documents({"date": today})
+    
+    present_today = await attendance_collection.count_documents({
+        "date": today,
+        "status": "Present"
+    })
+
+    absent_today = today_records - present_today
+
+    attendance_percentage = (
+        round((today_records / total_employees) * 100, 2)
+        if total_employees > 0 else 0
+    )
+
+    return {
+        "date": today,
+        "present_today": present_today,
+        "absent_today": absent_today,
+        "attendance_marked": today_records,
+        "attendance_percentage": attendance_percentage
+    }
 
 @app.get("/api/attendance/summary/{employee_id}")
 async def get_employee_attendance_summary(employee_id: str):

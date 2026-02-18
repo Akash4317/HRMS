@@ -12,6 +12,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [todayStats, setTodayStats] = useState(null);
 
   // Employee form state
   const [employeeForm, setEmployeeForm] = useState({
@@ -38,6 +39,7 @@ function App() {
     fetchEmployees();
     fetchAttendance();
     fetchStats();
+    fetchTodayStats();
   }, []);
 
   const fetchEmployees = async () => {
@@ -60,7 +62,7 @@ function App() {
       const params = {};
       if (filters.employee_id) params.employee_id = filters.employee_id;
       if (filters.date) params.date_filter = filters.date;
-      
+
       const response = await axios.get(`${API_URL}/api/attendance`, { params });
       setAttendance(response.data);
       setError('');
@@ -80,6 +82,16 @@ function App() {
       console.error('Failed to fetch stats:', err);
     }
   };
+
+  const fetchTodayStats = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/stats/today`);
+      setTodayStats(response.data);
+    } catch (err) {
+      console.error("Failed to fetch today's stats");
+    }
+  };
+
 
   const handleEmployeeSubmit = async (e) => {
     e.preventDefault();
@@ -101,7 +113,7 @@ function App() {
 
   const handleDeleteEmployee = async (employeeId) => {
     if (!window.confirm('Are you sure you want to delete this employee?')) return;
-    
+
     try {
       setLoading(true);
       await axios.delete(`${API_URL}/api/employees/${employeeId}`);
@@ -182,6 +194,16 @@ function App() {
             </div>
           </div>
         )}
+
+        {todayStats && (
+          <div className="stat-card" style={{ marginTop: "1rem" }}>
+            <h3>Today's Attendance</h3>
+            <p>Present: {todayStats.present_today}</p>
+            <p>Absent: {todayStats.absent_today}</p>
+            <p>Attendance %: {todayStats.attendance_percentage}%</p>
+          </div>
+        )}
+
 
         {/* Navigation */}
         <nav className="nav">
@@ -370,7 +392,7 @@ function App() {
 
             <div className="card">
               <h2>Attendance Records</h2>
-              
+
               <div className="filter-section">
                 <h3>Filters</h3>
                 <div className="form-row">
